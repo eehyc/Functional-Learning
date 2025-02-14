@@ -25,33 +25,11 @@ else:
     import time, sys
     import os
     import t_io
-    import math
     import t_component_interface
 
 
 
     def delta(Camera):
-
-        # # Create the function pointer.
-        # Callbackfunc = IC.TIS_GrabberDLL.FRAMEREADYCALLBACK(Callback)
-        #
-        # Userdata = CallbackUserdata()
-        #
-        # # # Create the camera object.
-        # # Camera = IC.TIS_CAM()
-        # #
-        # # # Open a camera.
-        # # Camera.ShowDeviceSelectionDialog()
-        #
-        # # Noe pass the function pointer and our user data to the library.
-        # Camera.SetFrameReadyCallback(Callbackfunc, Userdata)
-
-        # # Handle each incoming frame automatically.
-        # Camera.SetContinuousMode(0)
-        #
-        # Camera.SetPropertySwitch("Trigger", "Enable", 1)
-        # # Start live video.
-        # Camera.StartLive(1)
 
         try:
             while (True):
@@ -234,21 +212,6 @@ else:
             :param: pData : Pointer to additional user data structure
             """
 
-            # pData.buffer_size = 1600 * 1200 * 3
-            # pData.height = 1200
-            # pData.width = 1600
-            # pData.iBitsPerPixel = 3
-            # pData.image = C.cast(pBuffer, C.POINTER(C.c_ubyte * pData.buffer_size))
-            #
-            #
-            # cvMat = np.ndarray(buffer = pData.image.contents,
-            #                 dtype = np.uint8,
-            #                 shape = (pData.height,
-            #                         pData.width,
-            #                         pData.iBitsPerPixel))
-            #
-            # pData.image = cvMat
-
             pData.ready = True
 
         def snapImage(self):
@@ -309,69 +272,6 @@ else:
             self.getCameraProperty(self.property_dict)
 
 
-            # self.property_dict['X0'] = 0
-            # self.property_dict['X1'] = -1
-            # self.property_dict['Y0'] = 0
-            # self.property_dict['Y1'] = -1
-
-
-            # command = input("Pleas input the optional commands (X0=,X1=,Y0=,Y1=) : ")
-            # if "=" in command:
-            #     command.replace(' ', '')
-            #     pairs = command.split(',')
-            #     for p in pairs:
-            #         pp = p.split("=")
-            #         key = pp[0]
-            #         value = pp[1]
-            #         if key == 'X0':
-            #             self.property_dict['X0'] = value
-            #         elif key == 'X1':
-            #             self.property_dict['X1'] = value
-            #         elif key == 'Y0':
-            #             self.property_dict['Y0'] = value
-            #         elif key == 'Y1':
-            #             self.property_dict['Y1'] = value
-
-
-            # with open(dict_file, 'w', newline='') as csv_file:
-            #     writer = csv.writer(csv_file)
-            #     for key, value in self.property_dict.items():
-            #         writer.writerow([key, value])
-
-
-            # reset the dict
-            # if os.path.exists(file):
-            #     with open(file, 'rb') as csv_file:
-            #         reader = csv.reader(csv_file)
-            #         property_dict = dict(reader)
-            #
-            #         self.setCameraProperty(property_dict)
-
-            # get initial state
-
-            # try:
-            #     while (True):
-            #
-            #         command = input("Input the command (WhiteBalanceGreen=/Gain=/Exposure=XXX) : ")
-            #
-
-
-            #
-            #         # refresh and print statistics
-            #         image = self.snapImage(property_dict['Exposure'])
-            #         temp = np.reshape(image, [-1, 3])
-            #         print('Min : ', temp.min(axis=0))
-            #         print('Max : ', temp.max(axis=0))
-            #
-            #         # Apply some OpenCV function on this image
-            #         # image = cv2.flip(image, 0)
-            #         #
-            #         cv2.imshow('Captured', image)
-            #         cv2.waitKey(10)
-            #
-            # except KeyboardInterrupt:
-            #     self.camera.StopLive()
-            #     cv2.destroyWindow('Window')
 
         class TISCameraComponentInterface(t_component_interface.ImageComponentInterface):
 

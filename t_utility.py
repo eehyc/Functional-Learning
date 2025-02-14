@@ -309,35 +309,6 @@ def DictFailFilter(a_dict, key_words):
     return b_dict
 
 
-def VariablePassFilter(var_list, key_words):
-
-    final_var = set()
-
-    for key in key_words:
-        pass_var = [x for x in var_list if match(x.name, key)]
-        final_var.update(pass_var)
-
-    return list(final_var)
-
-def VariableFilter(var_list, filter):
-
-    filter_dict = {}
-    if filter is dict:
-        filter_dict = filter
-    elif not filter == '':
-        filter_dict = ast.literal_eval(filter)
-
-
-    fail_key_words = filter_dict.get('fail')
-    if not fail_key_words is None:
-        var_list = VariableFailFilter(var_list, fail_key_words)
-
-    pass_key_words = filter_dict.get('pass')
-    if not pass_key_words is None:
-        var_list = VariablePassFilter(var_list, pass_key_words)
-
-    return var_list
-
 # Initialize dictionary of errors to zero
 def InitializeErrors(errorList):
 
@@ -540,50 +511,6 @@ def DownScale(img, grain_s):
 
         return shrinked_tensor
 
-        # def down_two_dims(tensor, scale_factor, dim):
-        #
-        #     ori_size = list(tensor.size())
-        #     target_size = ori_size.copy()
-        #
-        #     for d, scale in enumerate(scale_factor):
-        #         target_size[d + dim] = int(target_size[d + dim] *scale)
-        #
-        #     scale_dim = len(scale_factor)
-        #     if dim + scale_dim < len(ori_size):
-        #         after_sum = np.prod(ori_size[dim + scale_dim:])
-        #         transform_size = [1,-1] + ori_size[dim : dim + scale_dim] + [after_sum]
-        #         tensor = tensor.view(transform_size)
-        #         tensor = torch.nn.functional.interpolate(tensor, scale_factor=scale_factor+[1])
-        #     else:
-        #         transform_size = [1, -1] + ori_size[dim:]
-        #         tensor = tensor.view(transform_size)
-        #         tensor = torch.nn.functional.interpolate(tensor, scale_factor=scale_factor)
-        #
-        #
-        #     return tensor.view(target_size)
-        #
-        # grain_s = 1.0 / np.array(grain_s)
-        # tensor = img
-        #
-        # assert len(grain_s) == len(tensor.size()), "dimension must match"
-        #
-        # repeated = tensor
-        #
-        # callout_record = []
-        # index = len(grain_s)
-        # while index >= 0:
-        #     ptr = max(index - 2, 0)
-        #     scale = grain_s[max(index - 2, 0):index]
-        #     if len(scale) > 0 and min(scale) < 1:
-        #         callout_record.append((scale, ptr))
-        #     index -= 2
-        #
-        # for (scale, ptr) in reversed(callout_record):
-        #     repeated = down_two_dims(repeated, scale, ptr)
-        #
-        # return repeated
-
-        ###############################
 
 
 
@@ -641,9 +568,6 @@ def UpScale(img, grain_s):
 
     if isinstance(img, np.ndarray):
 
-        # for i in range(len(grain_s)):
-        #     if grain_s[i] > 1:
-        #         img = np.repeat(img, grain_s[i], axis=i)
         repeats = grain_s
         tensor = img
 
@@ -702,51 +626,6 @@ def UpScale(img, grain_s):
             repeated = up_two_dims(repeated, scale, ptr)
 
         return repeated
-
-        # repeated = up_two_dims(repeated, [gg, gg], 1)
-        # repeated = up_two_dims(repeated, [gg, gg], 3)
-
-        # for axis, repeat in enumerate(repeats):
-        #     if repeat > 1:
-        #         repeated = up_two_dims(repeated, [repeat], axis)
-
-        # return repeated
-
-
-        repeated = tensor
-        for axis, repeat in enumerate(repeats):
-            if repeat > 1:
-                repeated = torch.repeat_interleave(repeated, repeat, dim=axis)
-
-        return repeated
-
-        # for i in range(length):
-        #     if grain_s[i] > 1:
-        #         img = tf.keras.backend.repeat_elements(img, grain_s[i], axis=i)
-        #
-        # return img
-
-# def UpScale(img, grainHeight, grainWidth, grainDepth = 1):
-#
-#     if isinstance(img, np.ndarray):
-#
-#         if grainHeight > 1:
-#             img = np.repeat(img, grainHeight, axis=0)
-#         if grainWidth > 1:
-#             img = np.repeat(img, grainWidth, axis=1)
-#         if grainDepth > 1:
-#             img = np.repeat(img, grainDepth, axis=2)
-#
-#     else:
-#         if grainHeight > 1:
-#             img = tf.keras.backend.repeat_elements(img, grainHeight, axis=0)
-#         if grainWidth > 1:
-#             img = tf.keras.backend.repeat_elements(img, grainWidth, axis=1)
-#         if grainDepth > 1:
-#             img = tf.keras.backend.repeat_elements(img, grainDepth, axis=2)
-#
-#     return img
-
 
 
 def One_hot(target, num_class):

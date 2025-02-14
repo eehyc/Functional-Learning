@@ -90,7 +90,6 @@ flags.DEFINE_integer('numOLayers', 3, 'Number of optical layers.')
 
 
 import logging
-import sklearn
 import numpy as np
 import t_io
 import ast
@@ -149,7 +148,7 @@ def RunHardwareServerThenExit(params, FLAGS):
 
         server.send_queue.put(send_data)
 
-    exit(0)
+    sys.exit(0)
 
 # Initialize neural network.
 def InitializeModules(params, FLAGS):
@@ -242,9 +241,7 @@ def InitializeModules(params, FLAGS):
         # optimizers['p_optimizer_l' + str(o)] = torch.
 
 
-    # modules['last2'] = layer_MLP_c_DIG_c.layer_MLP_c_DIG_c(FLAGS.inputShape, FLAGS.inputShape).to(device)
     modules['last'] = layer_PLANE_c_DIG_c.layer_PLANE_c_DIG_c(3).to(device)
-    # modules['last'].regular = False
 
     params['modules'] = modules
     params['models'] = models
@@ -355,7 +352,6 @@ def InitializeDevices(params, FLAGS):
     spec['oVirtualHeightP'] = 32
     spec['oVirtualWidthP'] = 32
 
-    # spec = device_i_2L_i.SimulationSpec(params, FLAGS, FLAGS.device)
 
     d = oDevice_i_2L_i.ODevice_i_2L_i(spec, params, FLAGS)
     d.activateHardware(params, FLAGS)
@@ -390,8 +386,7 @@ def InitializeDataset(params, FLAGS):
         test_loader = torch.utils.data.DataLoader(test_set, batch_size=FLAGS.batchSize, shuffle=False,
                                                   num_workers=FLAGS.dWorkers, pin_memory=True)
 
-        # debug
-        # test_loader = train_loader
+
 
         def convert_to_cuda(train_set):
 
@@ -423,7 +418,6 @@ def InitializeDataset(params, FLAGS):
 
         transform = transforms.Compose([
             transforms.ToTensor(),
-            # transforms.Normalize(mean=(0, 0, 0), std=(1, 1, 1))
         ])
 
         train_set = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)

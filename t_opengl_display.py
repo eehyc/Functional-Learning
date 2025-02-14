@@ -56,10 +56,6 @@ else:
 
 
                 glfw.window_hint(glfw.DECORATED, False)
-                # glfw.window_hint(glfw.GREEN_BITS, 8)
-                # glfw.window_hint(glfw.RED_BITS, 8)
-                # glfw.window_hint(glfw.BLUE_BITS, 8)
-                # glfw.window_hint(glfw.REFRESH_RATE, mode.refresh_rate)
                 window = glfw.create_window(width, height, display_list[i], None, None)
                 glfw.set_window_pos(window, width_offset, 0)
                 width_offset += width
@@ -176,16 +172,6 @@ else:
 
             glViewport(0, 0, window_width, window_height)
 
-            # glBegin(GL_QUADS)
-            # glTexCoord2f(0.0, 0.0)
-            # glVertex3f(-1.0, -1.0, 0.5)
-            # glTexCoord2f(1.0, 0.0)
-            # glVertex3f(1.0, -1.0, 0.5)
-            # glTexCoord2f(1.0, 1.0)
-            # glVertex3f(1.0, 1.0, 0.5)
-            # glTexCoord2f(0.0, 1.0)
-            # glVertex3f(-1.0, 1.0, 0.5)
-            # glEnd()
 
             # alignment issue
             glBegin(GL_QUADS)
